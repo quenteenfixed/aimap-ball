@@ -5,7 +5,11 @@ import os
 
 # ============ Chrome 相关 ============
 # macOS 默认 Chrome 路径
-CHROME_PATH = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+# CHROME_PATH = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+
+# Windows 默认 Chrome 路径
+CHROME_PATH = r"C:\Users\lilin\AppData\Local\Google\Chrome\Application\chrome.exe"
 
 # 远程调试端口（CDP）
 DEBUG_PORT = 9222

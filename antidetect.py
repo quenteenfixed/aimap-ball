@@ -34,11 +34,11 @@ ANTIDETECT_JS = r"""
     apply(target, thisArg, args) {
       const result = Reflect.apply(target, thisArg, args);
       // 对被 hook 的函数返回 native code 字符串
-      if (typeof thisArg === 'function') {
-        const src = String(thisArg);
-        if (src.includes('[native code]') || src === 'function () { [native code] }') {
-          return 'function () { [native code] }';
-        }
+      // 注意：直接使用 result（原始 toString 的返回值）判断，
+      // 不能再调用 String(thisArg) 或 thisArg.toString()，否则会无限递归触发本 Proxy。
+      if (typeof result === 'string' &&
+          (result.includes('[native code]') || result === 'function () { [native code] }')) {
+        return 'function () { [native code] }';
       }
       return result;
     }
@@ -143,7 +143,7 @@ ANTIDETECT_JS = r"""
 
   // ---------- 9. 修复 navigator.platform ----------
   Object.defineProperty(navigator, 'platform', {
-    get: () => 'MacIntel',
+    get: () => 'Win32',
     configurable: true
   });
 
